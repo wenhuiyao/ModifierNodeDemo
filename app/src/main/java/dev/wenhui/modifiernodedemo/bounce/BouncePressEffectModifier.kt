@@ -81,10 +81,9 @@ internal class BouncePressEffectNode(
         if (!isAttached) return
         effectJob = coroutineScope.launch {
             interactionSource.interactions.collect { interaction ->
-                if (interaction is PressInteraction.Press) {
-                    runBounceDownAnimation()
-                } else if (interaction is PressInteraction.Cancel || interaction is PressInteraction.Release) {
-                    runBounceUpAnimation()
+                when (interaction) {
+                    is PressInteraction.Press -> runBounceDownAnimation()
+                    is PressInteraction.Cancel, is PressInteraction.Release -> runBounceUpAnimation()
                 }
             }
         }

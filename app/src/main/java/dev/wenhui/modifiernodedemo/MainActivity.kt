@@ -50,8 +50,10 @@ private fun MainScreen() {
                         actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     actions = {
-                        DropDownMenuActionButton(selectedMenu) {
-                            selectedMenu = it
+                        DropDownMenuActionButton {
+                            if (it != selectedMenu) {
+                                selectedMenu = it
+                            }
                         }
                     }
                 )
@@ -97,7 +99,6 @@ private enum class MenuItem(val label: String) {
 
 @Composable
 private fun DropDownMenuActionButton(
-    selectedMenu: MenuItem,
     modifier: Modifier = Modifier,
     onMenuClick: (MenuItem) -> Unit
 ) {
@@ -114,7 +115,6 @@ private fun DropDownMenuActionButton(
 
         DropDownMenus(
             expanded = menuExpanded,
-            selectedMenu = selectedMenu,
             onDismissRequest = { menuExpanded = false },
             onMenuClick = onMenuClick
         )
@@ -125,7 +125,6 @@ private fun DropDownMenuActionButton(
 @Composable
 private fun DropDownMenus(
     expanded: Boolean,
-    selectedMenu: MenuItem,
     onDismissRequest: () -> Unit,
     onMenuClick: (MenuItem) -> Unit
 ) {
@@ -133,14 +132,12 @@ private fun DropDownMenus(
         expanded = expanded, onDismissRequest = onDismissRequest
     ) {
         MenuItem.values().forEach { menu ->
-            if (menu != selectedMenu) {
-                DropdownMenuItem(text = {
-                    Text(text = menu.label)
-                }, onClick = {
-                    onDismissRequest()
-                    onMenuClick(menu)
-                })
-            }
+            DropdownMenuItem(text = {
+                Text(text = menu.label)
+            }, onClick = {
+                onDismissRequest()
+                onMenuClick(menu)
+            })
         }
     }
 }

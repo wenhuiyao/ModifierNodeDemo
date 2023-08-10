@@ -84,6 +84,10 @@ private class BouncePressNode(
 ) : DelegatingNode(), PointerInputModifierNode {
 
     private val interactionSource = MutableInteractionSource()
+
+    /**
+     * Delegate clickable logic to CombinedClickableNode
+     */
     private val clickableNode = delegate(
         // This is experimental api, if it's removed or hidden,  we need to write
         // our own version of it, using SuspendingPointerInputModifierNode and handle
@@ -100,10 +104,14 @@ private class BouncePressNode(
         )
     )
 
+    /**
+     * Delegate the bounce effect to BouncePressEffectNode for handling the animation
+     */
     private val bounceEffectNode = delegate(
         BouncePressEffectNode(interactionSource)
     )
 
+    /** Wrap click listener to notify press end */
     private fun (() -> Unit).wrap(): (() -> Unit) {
         return {
             bounceEffectNode.tryReleasePress()
