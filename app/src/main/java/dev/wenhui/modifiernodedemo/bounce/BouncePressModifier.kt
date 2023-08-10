@@ -89,7 +89,7 @@ private class BouncePressNode(
         // our own version of it, using SuspendingPointerInputModifierNode and handle
         // semantics properties
         CombinedClickableNode(
-            onClick = onClick,
+            onClick = onClick.wrap(),
             onLongClickLabel = onLongClickLabel,
             onLongClick = onLongClick?.wrap(),
             onDoubleClick = onDoubleClick?.wrap(),
@@ -121,7 +121,7 @@ private class BouncePressNode(
         role: Role?,
     ) {
         clickableNode.update(
-            onClick = onClick,
+            onClick = onClick.wrap(),
             onLongClickLabel = onLongClickLabel,
             onLongClick = onLongClick?.wrap(),
             onDoubleClick = onDoubleClick?.wrap(),
