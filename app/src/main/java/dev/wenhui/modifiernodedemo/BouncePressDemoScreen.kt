@@ -1,9 +1,6 @@
 package dev.wenhui.modifiernodedemo
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -19,14 +16,12 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import dev.wenhui.modifiernodedemo.bounce.bouncePress
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BouncePressDemoScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-    val interactionSource = remember { MutableInteractionSource() }
     var animationActive by remember { mutableStateOf(false) }
 
     Box(modifier = modifier) {
@@ -34,13 +29,17 @@ fun BouncePressDemoScreen(modifier: Modifier = Modifier) {
             active = animationActive,
             modifier = Modifier
                 .align(Alignment.Center)
-                .combinedClickable(
-                    interactionSource = interactionSource,
-                    indication = null,
+                .bouncePress(
                     onLongClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         Toast
                             .makeText(context, "Long clicked", Toast.LENGTH_SHORT)
+                            .show()
+                    },
+                    onDoubleClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        Toast
+                            .makeText(context, "Double clicked", Toast.LENGTH_SHORT)
                             .show()
                     }
                 ) {
@@ -49,7 +48,6 @@ fun BouncePressDemoScreen(modifier: Modifier = Modifier) {
                         .makeText(context, "Clicked", Toast.LENGTH_SHORT)
                         .show()
                 }
-                .bouncePressEffect(interactionSource)
         )
 
         Button(

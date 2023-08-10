@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PathAnimationScreen(modifier: Modifier = Modifier) {
+fun HandleGestureScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var animationActive by remember { mutableStateOf(false) }
     var dragEnabled by remember { mutableStateOf(true) }

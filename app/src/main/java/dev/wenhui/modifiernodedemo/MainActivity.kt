@@ -77,8 +77,8 @@ private fun MainScreen() {
                         BouncePressDemoScreen(modifier = screenModifier)
                     }
 
-                    MenuItem.PATH_ANIMATION -> {
-                        PathAnimationScreen(modifier = screenModifier)
+                    MenuItem.HANDLE_GESTURE -> {
+                        HandleGestureScreen(modifier = screenModifier)
                     }
                 }
             }
@@ -92,7 +92,7 @@ private enum class MenuItem(val label: String) {
     COMPOSITION_LOCAL("Composition local demo"),
     OBSERVER_NODE("Observer node demo"),
     BOUNCE_PRESS("Bounce press demo"),
-    PATH_ANIMATION("Path animation demo")
+    HANDLE_GESTURE("Handle gesture demo")
 }
 
 @Composable

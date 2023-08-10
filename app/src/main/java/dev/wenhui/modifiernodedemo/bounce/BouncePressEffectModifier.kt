@@ -1,4 +1,4 @@
-package dev.wenhui.modifiernodedemo
+package dev.wenhui.modifiernodedemo.bounce
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
@@ -21,6 +21,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 
+
+/** Render bouce effect on press start/release */
 fun Modifier.bouncePressEffect(interactionSource: InteractionSource) =
     this then BouncePressEffectModifier(interactionSource)
 
@@ -40,7 +42,7 @@ private data class BouncePressEffectModifier(
 
 private const val MIN_SCALE = 0.8f
 
-private class BouncePressEffectNode(
+internal class BouncePressEffectNode(
     private var interactionSource: InteractionSource
 ) : Modifier.Node(), LayoutModifierNode {
 
@@ -88,10 +90,15 @@ private class BouncePressEffectNode(
         }
     }
 
+    internal fun tryReleasePress() {
+        runBounceUpAnimation()
+    }
+
     private fun runBounceDownAnimation() {
         if (!isAttached || bounceDownAnimation?.isActive == true) return
 
         bounceDownAnimation = coroutineScope.launch {
+            bounceUpAnimation?.cancelAndJoin()
             Animatable(1f).animateTo(
                 targetValue = MIN_SCALE,
                 animationSpec = animationSpec,
